@@ -47,7 +47,7 @@ jobs:
           mkdir -p "pack/${name}"
           if [ "${{ matrix.ext }}" = "zip" ]; then
             cp "target/${{ matrix.target }}/release/stencil.exe" "pack/${name}/stencil.exe"
-            (cd pack && zip -r "../${name}.zip" "${name}")
+            powershell.exe -NoProfile -Command "Compress-Archive -Force -Path 'pack/${name}' -DestinationPath '${name}.zip'"
           else
             cp "target/${{ matrix.target }}/release/stencil" "pack/${name}/stencil"
             chmod +x "pack/${name}/stencil"
