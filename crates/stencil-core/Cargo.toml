@@ -1,0 +1,11 @@
+[package]
+name = "stencil-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "QR codes and vCards for Stencil"
+publish = false
+
+[dependencies]
+image = { version = "0.25", default-features = false, features = ["png"] }
+qrcode = "0.14"

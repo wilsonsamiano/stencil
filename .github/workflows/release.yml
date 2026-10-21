@@ -1,0 +1,78 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: ${{ matrix.asset }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            asset: linux-x86_64
+            ext: tar.gz
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            asset: macos-aarch64
+            ext: tar.gz
+          - os: macos-latest
+            target: x86_64-apple-darwin
+            asset: macos-x86_64
+            ext: tar.gz
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            asset: windows-x86_64
+            ext: zip
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - name: Build stencil
+        run: cargo build -p stencil-cli --release --target ${{ matrix.target }}
+      - name: Pack
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="${GITHUB_REF_NAME#v}"
+          name="stencil-${version}-${{ matrix.asset }}"
+          mkdir -p "pack/${name}"
+          if [ "${{ matrix.ext }}" = "zip" ]; then
+            cp "target/${{ matrix.target }}/release/stencil.exe" "pack/${name}/stencil.exe"
+            (cd pack && zip -r "../${name}.zip" "${name}")
+          else
+            cp "target/${{ matrix.target }}/release/stencil" "pack/${name}/stencil"
+            chmod +x "pack/${name}/stencil"
+            tar -C pack -czf "${name}.tar.gz" "${name}"
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset }}
+          path: stencil-*
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    if: ${{ always() && !cancelled() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: List archives
+        run: find dist -type f -print
+      - uses: softprops/action-gh-release@v2
+        with:
+          prerelease: ${{ contains(github.ref_name, '-') }}
+          files: dist/**/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

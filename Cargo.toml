@@ -1,0 +1,10 @@
+[workspace]
+resolver = "2"
+members = ["crates/stencil-core", "crates/stencil-cli", "crates/stencil-wasm"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+authors = ["Wilson Samiano"]
+repository = "https://github.com/wilsonsamiano/stencil"
