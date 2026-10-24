@@ -1,6 +1,6 @@
 # Stencil
 
-Public beta 0.1.0. QR codes and contact cards. The encoder is Rust.
+Public beta 0.2.0. QR codes and contact cards. The encoder is Rust.
 
 [Buy me a coffee](https://buymeacoffee.com/wilsonsamiano)
 
@@ -11,10 +11,11 @@ Public beta 0.1.0. QR codes and contact cards. The encoder is Rust.
 | Linux x86_64 | `stencil` command from the release archive |
 | macOS Apple silicon and Intel | `stencil` command from the release archive |
 | Windows x86_64 | `stencil.exe` from the release archive |
-| Android, iOS, and desktop browsers | The Stencil studio. Add it to your home screen. The page loads this repo's Rust encoder as WebAssembly. |
+| Android | `stencil-0.2.0-beta-android.apk` on the release. Sideload it. It is not a Play Store package. |
+| iOS and desktop browsers | The Stencil studio, added to the home screen. There is no App Store package. |
 | Updates | Studio: **Check for updates**. Command: `stencil update`. Both read the public GitHub releases, including betas. |
 
-This beta does not ship an App Store or Play Store package. Android and iOS install the studio from the browser. When a newer beta is tagged, the studio says so. Reload the page after the studio itself is republished. `stencil update` downloads the archive for the computer you are on.
+Android 8 and newer can install the APK from this repo's releases. iOS uses the studio page. `stencil update` downloads the archive for the computer you are on.
 
 ## Command
 
