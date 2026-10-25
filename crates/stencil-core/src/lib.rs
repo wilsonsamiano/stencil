@@ -4,7 +4,7 @@ mod vcard;
 pub use qr::{encode_contact_png, encode_png, encode_svg, QrImage};
 pub use vcard::{build_vcard, Contact};
 
-pub const VERSION: &str = "0.2.0-beta";
+pub const VERSION: &str = "0.2.1-beta";
 pub const COFFEE_URL: &str = "https://buymeacoffee.com/wilsonsamiano";
 pub const RELEASE_REPO: &str = "wilsonsamiano/stencil";
 
